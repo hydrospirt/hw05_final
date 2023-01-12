@@ -47,12 +47,14 @@ def profile(request, username):
     page_obj = paginator.get_page(page_number)
     title = f'Профиль пользователя {username}'
     following = author.following.filter(user=request.user).exists()
+    followers = Follow.objects.filter(author=author).count()
     context = {
         'post_count': post_count,
         'author': author,
         'title': title,
         'page_obj': page_obj,
-        'following': following
+        'following': following,
+        'followers': followers
     }
     return render(request, template, context)
 
@@ -61,6 +63,7 @@ def post_detail(request, post_id):
     template = 'posts/post_detail.html'
     post = get_object_or_404(Post, id=post_id)
     post_count = post.author.posts.count()
+    followers = post.author.following.count()
     title = f'Публикация {post}'
     comments = post.comments.all()
     form = CommentForm(request.POST or None)
@@ -70,6 +73,7 @@ def post_detail(request, post_id):
         'post_count': post_count,
         'form': form,
         'comments': comments,
+        'followers': followers
     }
     return render(request, template, context)
 
