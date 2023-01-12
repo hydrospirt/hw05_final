@@ -12,13 +12,13 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 User = get_user_model()
 SMALL_GIF = (
-             b'\x47\x49\x46\x38\x39\x61\x02\x00'
-             b'\x01\x00\x80\x00\x00\x00\x00\x00'
-             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-             b'\x0A\x00\x3B'
-        )
+    b'\x47\x49\x46\x38\x39\x61\x02\x00'
+    b'\x01\x00\x80\x00\x00\x00\x00\x00'
+    b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+    b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+    b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+    b'\x0A\x00\x3B'
+)
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
@@ -62,18 +62,20 @@ class PostFormTests(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('posts:profile',
-        kwargs={'username': self.user.username}))
+        self.assertRedirects(
+            response,
+            reverse(
+                'posts:profile',
+                kwargs={'username': self.user.username}))
         self.assertEqual(Post.objects.count(), post_count + 1)
         self.assertTrue(
             Post.objects.filter(
-            text='Текст публикации в форме',
-            group=self.group.pk,
-            author=self.user,
-            image='posts/small.gif',
+                text='Текст публикации в форме',
+                group=self.group.pk,
+                author=self.user,
+                image='posts/small.gif',
             ).exists()
         )
-
 
     def test_edit_form_post(self):
         self.old_post = Post.objects.create(
@@ -127,14 +129,15 @@ class CommentFormTests(TestCase):
         response = self.auth_user.post(
             reverse(
                 'posts:add_comment',
-                kwargs={'post_id':
-                self.post_c.pk}),
-                data=form_data,
-                follow=True
+                kwargs={'post_id': self.post_c.pk}
+            ),
+            data=form_data,
+            follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('posts:post_detail',
-        kwargs={'post_id': self.post_c.pk}))
+        self.assertRedirects(
+            response, reverse('posts:post_detail',
+                              kwargs={'post_id': self.post_c.pk}))
         self.assertEqual(Comment.objects.count(), comment_count + 1)
         self.assertTrue(
             Comment.objects.filter(
@@ -142,6 +145,7 @@ class CommentFormTests(TestCase):
                 author=self.user
             )
         )
+
     def test_comment_form_guest(self):
         comment_count = Comment.objects.count()
         form_data = {
@@ -150,10 +154,10 @@ class CommentFormTests(TestCase):
         response = self.guest.post(
             reverse(
                 'posts:add_comment',
-                kwargs={'post_id':
-                self.post_c.pk}),
-                data=form_data,
-                follow=True
+                kwargs={'post_id': self.post_c.pk}
+            ),
+            data=form_data,
+            follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertNotEqual(Comment.objects.count(), comment_count + 1)

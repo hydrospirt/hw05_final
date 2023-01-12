@@ -89,7 +89,7 @@ def post_create(request):
     form = PostForm(
         request.POST or None,
         files=request.FILES or None,
-        )
+    )
     if form.is_valid():
         post = form.save(False)
         post.author = request.user
@@ -121,6 +121,7 @@ def post_edit(request, post_id):
     context = {'form': form, 'title': title, 'is_edit': True}
     return render(request, template, context)
 
+
 @login_required
 def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -131,6 +132,7 @@ def add_comment(request, post_id):
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
+
 
 @login_required
 def follow_index(request):
@@ -146,6 +148,7 @@ def follow_index(request):
     }
     return render(request, template, context)
 
+
 @login_required
 def profile_follow(request, username):
     if request.user.username == username:
@@ -158,6 +161,7 @@ def profile_follow(request, username):
     if not already_follow:
         Follow.objects.create(user=request.user, author=following)
     return redirect('posts:profile', username=username)
+
 
 @login_required
 def profile_unfollow(request, username):
