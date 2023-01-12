@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Технологии проекта{% endblock title %}
+{% block content %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">О технологиях</h1>
+        <p class="lead text-muted">
+            В этом проекте было примено множество технологий Web-разработки
+        </p>
+      </div>
+    </div>
+</section>
+<div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src="{% static 'img/python.png' %}">
+            <div class="card-body">
+              <p class="card-text">
+                Python - высокоуровневый язык программирования общего назначения с динамической строгой типизацией
+                 и автоматическим управлением памятью, ориентированный на повышение производительности разработчика,
+                 читаемости кода и его качества, а также на обеспечение переносимости написанных на нём программ.
+                 Язык является полностью объектно-ориентированным в том плане, что всё является объектами.
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://ru.wikipedia.org/wiki/Python" style="color:inherit">Wikipedia</a>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://docs.python.org/3/" style="color:inherit">Doc</a>
+                  </button>
+                </div>
+                <small class="text-muted">Web-разработка</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src="{% static 'img/django.png' %}">
+            <div class="card-body">
+              <p class="card-text">
+                Django — свободный фреймворк для веб-приложений на языке Python,
+                использующий шаблон проектирования MVC(Model-View-Controller).
+                Проект поддерживается организацией Django Software Foundation.
+                Сайт на Django строится из одного или нескольких приложений,
+                которые рекомендуется делать отчуждаемыми и подключаемыми.
+                Это одно из существенных архитектурных отличий этого фреймворка
+                от некоторых других (например, Ruby on Rails).
+                Один из основных принципов фреймворка — DRY (англ. Don't repeat yourself)
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://ru.wikipedia.org/wiki/Django" style="color:inherit">Wikipedia</a>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://docs.djangoproject.com/en/4.1/" style="color:inherit">Doc</a>
+                  </button>
+                </div>
+                <small class="text-muted">Web-разработка</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src="{% static 'img/bootstrap.png' %}">
+
+            <div class="card-body">
+              <p class="card-text">
+                Bootstrap (также известен как Twitter Bootstrap) — свободный набор инструментов
+                для создания сайтов и веб-приложений.
+                Включает в себя HTML- и CSS шаблоны оформления для типографики,
+                веб форм, кнопок, меток, блоков навигации и прочих компонентов
+                веб-интерфейса, включая JavaScript расширения.
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://ru.wikipedia.org/wiki/Bootstrap_(фреймворк)" style="color:inherit">Wikipedia</a>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://getbootstrap.com/" style="color:inherit">Doc</a>
+                  </button>
+                </div>
+                <small class="text-muted">Web-разработка</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src="{% static 'img/html.png' %}">
+            <div class="card-body">
+              <p class="card-text">
+                HTML (от англ. HyperText Markup Language — «язык гипертекстовой разметки») —
+                стандартизированный язык гипертекстовой разметки документов для просмотра веб-страниц в браузере.
+                Веб-браузеры получают HTML документ от сервера по протоколам HTTP/HTTPS или открывают с локального диска,
+                далее интерпретируют код в интерфейс, который будет отображаться на экране монитора.
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://ru.wikipedia.org/wiki/HTML" style="color:inherit">Wikipedia</a>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" style="color:inherit">Doc</a>
+                  </button>
+                </div>
+                <small class="text-muted">Web-разработка</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src="{% static 'img/sqlite.png' %}">
+            <div class="card-body">
+              <p class="card-text">
+                SQLite — компактная встраиваемая СУБД.
+                Исходный код библиотеки передан в общественное достояние.
+                В 2005 году проект получил награду Google-O'Reilly Open Source Awards.
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://ru.wikipedia.org/wiki/SQLite" style="color:inherit">Wikipedia</a>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://www.sqlite.org/docs.html" style="color:inherit">Doc</a>
+                  </button>
+                </div>
+                <small class="text-muted">Встраиваемая СУБД</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src="{% static 'img/css.png' %}">
+
+            <div class="card-body">
+              <p class="card-text">
+                CSS (англ. Cascading Style Sheets «каскадные таблицы стилей») —
+                формальный язык описания внешнего вида документа (веб-страницы),
+                написанного с использованием языка разметки (чаще всего HTML или XHTML).
+                Также может применяться к любым XML-документам, например, к SVG или XUL.
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://ru.wikipedia.org/wiki/CSS" style="color:inherit">Wikipedia</a>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://developer.mozilla.org/ru/docs/Web/CSS" style="color:inherit">Doc</a>
+                  </button>
+                </div>
+                <small class="text-muted">Web-разработка</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
