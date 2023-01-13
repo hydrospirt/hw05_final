@@ -2,12 +2,14 @@ import shutil
 import tempfile
 from http import HTTPStatus
 
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
-from posts.models import Group, Post, Comment
 from django.core.files.uploadedfile import SimpleUploadedFile
+
+from django.conf import settings
+from posts.models import Group, Post, Comment
+
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 User = get_user_model()
@@ -164,5 +166,5 @@ class CommentFormTests(TestCase):
         self.assertFalse(
             Comment.objects.filter(
                 text='Гость не может комментировать',
-            )
+            ).exists()
         )
