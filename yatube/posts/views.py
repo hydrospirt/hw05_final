@@ -97,7 +97,7 @@ def post_create(request):
         post = form.save(False)
         post.author = request.user
         post.save()
-        return redirect(f'/profile/{post.author}/')
+        return redirect('posts:profile', username=post.author)
     context = {'form': form, 'title': title}
     return render(request, template, context)
 
