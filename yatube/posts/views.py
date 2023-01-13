@@ -2,18 +2,18 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.conf import settings
+from django.conf import settings as s
 
 from posts.models import Group, Post, Follow, User
 from posts.forms import PostForm, CommentForm
 
 
-@cache_page(20, key_prefix='index_page')
+@cache_page(s.TIME_CACHE, key_prefix='index_page')
 def index(request):
     template = 'posts/index.html'
     title = 'Последние обновления на сайте'
     posts_lists = Post.objects.all()
-    paginator = Paginator(posts_lists, settings.NUMBER_SHOW)
+    paginator = Paginator(posts_lists, s.NUMBER_SHOW)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -27,7 +27,7 @@ def group_posts(request, slug):
     template = 'posts/group_list.html'
     group = get_object_or_404(Group, slug=slug)
     posts_lists = group.posts.all()
-    paginator = Paginator(posts_lists, settings.NUMBER_SHOW)
+    paginator = Paginator(posts_lists, s.NUMBER_SHOW)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -42,7 +42,7 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     posts_lists = author.posts.select_related('author')
     post_count = posts_lists.count()
-    paginator = Paginator(posts_lists, settings.NUMBER_SHOW)
+    paginator = Paginator(posts_lists, s.NUMBER_SHOW)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     title = f'Профиль пользователя {username}'
@@ -143,7 +143,7 @@ def follow_index(request):
     user = request.user
     authors = user.follower.values_list('author', flat=True)
     posts = Post.objects.filter(author__id__in=authors)
-    paginator = Paginator(posts, settings.NUMBER_SHOW)
+    paginator = Paginator(posts, s.NUMBER_SHOW)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
