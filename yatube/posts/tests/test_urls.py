@@ -1,8 +1,8 @@
 from http import HTTPStatus
 
+from django.core.cache import cache
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
-from django.core.cache import cache
 
 from posts.models import Group, Post
 
@@ -29,6 +29,7 @@ class PostURLTests(TestCase):
         super().setUpClass()
         cls.guest = Client()
         cls.user = User.objects.create_user(username='testman')
+        cls.follower = User.objects.create_user(username='followertest')
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='test',
@@ -40,6 +41,8 @@ class PostURLTests(TestCase):
         )
         cls.auth_user = Client()
         cls.auth_user.force_login(cls.user)
+        cls.auth_follower = Client()
+        cls.auth_follower.force_login(cls.follower)
 
     def setUp(self):
         super().setUp()
@@ -52,7 +55,7 @@ class PostURLTests(TestCase):
             f'/posts/{self.post.pk}/',
             f'/profile/{self.user.username}/',
             '/create/',
-            f'/posts/{self.post.pk}/edit/'
+            f'/posts/{self.post.pk}/edit/',
         )
         for page in pages:
             with self.subTest(page=page):
@@ -73,6 +76,7 @@ class PostURLTests(TestCase):
             f'/profile/{self.user.username}/': 'posts/profile.html',
             '/create/': 'posts/create_post.html',
             f'/posts/{self.post.pk}/edit/': 'posts/create_post.html',
+            f'/follow/': 'posts/follow.html',
             'unexisted_page': 'core/404.html',
         }
         for url, template in template_url_names.items():
@@ -80,3 +84,14 @@ class PostURLTests(TestCase):
                 response = self.auth_user.get(url)
                 error_msg = f'Ошибка: {url} ожидал шаблон {template}'
                 self.assertTemplateUsed(response, template, error_msg)
+
+    def test_auth_follower_urls(self):
+        follow_page_1 = '/follow/'
+        follow_page_2 = f'/profile/{self.user.username}/follow'
+        follow_page_3 = f'/profile/{self.user.username}/unfollow'
+        response = self.auth_follower.get(follow_page_1)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        response = self.auth_follower.get(follow_page_2)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        response = self.auth_follower.get(follow_page_3)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
