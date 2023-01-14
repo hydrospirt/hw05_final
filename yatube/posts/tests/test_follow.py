@@ -24,7 +24,7 @@ class FollowViewTests(TestCase):
         )
 
     def test_follow(self):
-        response = self.auth_user.get(
+        self.auth_user.get(
             reverse('posts:profile_follow',
                     kwargs={'username': self.author.username})
         )
@@ -36,7 +36,7 @@ class FollowViewTests(TestCase):
             user=self.user,
             author=self.author
         )
-        response = self.auth_user.get(
+        self.auth_user.get(
             reverse('posts:profile_unfollow',
                     kwargs={'username': self.author.username})
         )
@@ -60,4 +60,3 @@ class FollowViewTests(TestCase):
         for key, value in post_context.items():
             with self.subTest(key=key):
                 self.assertEqual(key, value)
-

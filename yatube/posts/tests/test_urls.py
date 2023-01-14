@@ -76,7 +76,7 @@ class PostURLTests(TestCase):
             f'/profile/{self.user.username}/': 'posts/profile.html',
             '/create/': 'posts/create_post.html',
             f'/posts/{self.post.pk}/edit/': 'posts/create_post.html',
-            f'/follow/': 'posts/follow.html',
+            '/follow/': 'posts/follow.html',
             'unexisted_page': 'core/404.html',
         }
         for url, template in template_url_names.items():
@@ -86,12 +86,14 @@ class PostURLTests(TestCase):
                 self.assertTemplateUsed(response, template, error_msg)
 
     def test_auth_follower_urls(self):
-        follow_page_1 = '/follow/'
-        follow_page_2 = f'/profile/{self.user.username}/follow'
-        follow_page_3 = f'/profile/{self.user.username}/unfollow'
-        response = self.auth_follower.get(follow_page_1)
+        follow_url_1 = '/follow/'
+        response = self.auth_follower.get(follow_url_1)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        response = self.auth_follower.get(follow_page_2)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        response = self.auth_follower.get(follow_page_3)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        follow_urls = {
+            f'/profile/{self.user.username}/follow',
+            f'/profile/{self.user.username}/unfollow',
+        }
+        for url in follow_urls:
+            with self.subTest(url=url):
+                response = self.auth_follower.get(url)
+                self.assertEqual(response.status_code, HTTPStatus.FOUND)
