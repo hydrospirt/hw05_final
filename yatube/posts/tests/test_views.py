@@ -7,10 +7,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.cache import cache
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
-from django.shortcuts import redirect
 
 from django.conf import settings
-from posts.models import Group, Post
+from posts.models import Group, Post, Comment
 
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
@@ -70,7 +69,6 @@ class PostPagesTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def test_pages_use_correct_tempalte(self):
-        # import pdb; pdb.set_trace()
         templates_page_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse(
@@ -96,21 +94,20 @@ class PostPagesTests(TestCase):
                 self.assertTemplateUsed(response, template, error_msg)
 
     def test_follow_pages_use_correct_template(self):
-        templates_page_names ={
-        reverse(
-                'posts:profile_follow',
-                kwargs={'username': self.user.username}): 'posts/profile.html',
-        reverse('posts:follow_index'): 'posts/follow.html',
-        reverse(
-                'posts:profile_unfollow',
-                kwargs={'username': self.user.username}): 'posts/profile.html',
+        templates_page_names = {
+            reverse('posts:profile_follow',
+                    kwargs={'username': self.user.username}
+                    ): 'posts/profile.html',
+            reverse('posts:follow_index'): 'posts/follow.html',
+            reverse('posts:profile_unfollow',
+                    kwargs={'username': self.user.username}
+                    ): 'posts/profile.html',
         }
         for reverse_name, template in templates_page_names.items():
             with self.subTest(reverse_name=reverse_name):
                 response = self.auth_follower.get(reverse_name, follow=True)
                 error_msg = f'Ошибка: в {reverse_name}'
                 self.assertTemplateUsed(response, template, error_msg)
-
 
     def test_index_correct_context(self):
         response = self.auth_user.get(
@@ -263,3 +260,58 @@ class PaginatorViewTest(TestCase):
                 count_posts_2,
                 (POST_COUNT - int(settings.NUMBER_SHOW))
             )
+
+
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
+class CommentsViewTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.commentator = User.objects.create_user(username='testcommentator')
+        cls.post = Post.objects.create(
+            author=cls.commentator,
+            text='Обычная публикация',
+            group=None,
+            image=None
+        )
+        cls.comment = Comment.objects.create(
+            post=cls.post,
+            author=cls.commentator,
+            text='Тестовый комментарий'
+        )
+        cls.auth_comment_user = Client()
+        cls.auth_comment_user.force_login(cls.commentator)
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+
+    def test_comment_correct_context(self):
+        response = self.auth_comment_user.get(
+            reverse(
+                'posts:post_detail',
+                kwargs={'post_id':
+                        self.post.pk}))
+        comment_text = {
+            response.context['comments'][0].author: self.comment.author,
+            response.context['comments'][0].text: self.comment.text,
+        }
+        for key, value in comment_text.items():
+            with self.subTest(key=key):
+                self.assertEqual(key, value)
+
+    def test_comment_form_context(self):
+        response = self.auth_comment_user.get(
+            reverse(
+                'posts:post_detail',
+                kwargs={'post_id':
+                        self.post.pk})
+        )
+        form_field = {
+            'text': forms.fields.CharField
+        }
+        for key, value in form_field.items():
+            with self.subTest(key=key):
+                form_field = response.context['form'].fields[key]
+                self.assertIsInstance(form_field, value)
