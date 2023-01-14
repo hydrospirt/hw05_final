@@ -2,13 +2,15 @@ import shutil
 import tempfile
 
 from django import forms
-from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.test import Client, TestCase, override_settings
-from django.urls import reverse
-from posts.models import Group, Post
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.cache import cache
+from django.test import Client, TestCase, override_settings
+from django.urls import reverse
+from django.shortcuts import redirect
+
+from django.conf import settings
+from posts.models import Group, Post
 
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
@@ -36,6 +38,7 @@ class PostPagesTests(TestCase):
         )
         cls.guest = Client()
         cls.user = User.objects.create_user(username='testviewer')
+        cls.follower = User.objects.create_user(username='testfollower')
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='test',
@@ -54,6 +57,8 @@ class PostPagesTests(TestCase):
         )
         cls.auth_user = Client()
         cls.auth_user.force_login(cls.user)
+        cls.auth_follower = Client()
+        cls.auth_follower.force_login(cls.follower)
 
     def setUp(self):
         super().setUp()
@@ -65,6 +70,7 @@ class PostPagesTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def test_pages_use_correct_tempalte(self):
+        # import pdb; pdb.set_trace()
         templates_page_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse(
@@ -88,6 +94,23 @@ class PostPagesTests(TestCase):
                 response = self.auth_user.get(reverse_name)
                 error_msg = f'Ошибка: в {reverse_name}'
                 self.assertTemplateUsed(response, template, error_msg)
+
+    def test_follow_pages_use_correct_template(self):
+        templates_page_names ={
+        reverse(
+                'posts:profile_follow',
+                kwargs={'username': self.user.username}): 'posts/profile.html',
+        reverse('posts:follow_index'): 'posts/follow.html',
+        reverse(
+                'posts:profile_unfollow',
+                kwargs={'username': self.user.username}): 'posts/profile.html',
+        }
+        for reverse_name, template in templates_page_names.items():
+            with self.subTest(reverse_name=reverse_name):
+                response = self.auth_follower.get(reverse_name, follow=True)
+                error_msg = f'Ошибка: в {reverse_name}'
+                self.assertTemplateUsed(response, template, error_msg)
+
 
     def test_index_correct_context(self):
         response = self.auth_user.get(
