@@ -145,7 +145,7 @@ class CommentFormTests(TestCase):
             Comment.objects.filter(
                 text='Тестовый комментарий',
                 author=self.user
-            )
+            ).exists()
         )
 
     def test_comment_form_guest(self):
