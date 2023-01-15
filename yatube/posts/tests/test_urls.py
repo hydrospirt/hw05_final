@@ -97,3 +97,13 @@ class PostURLTests(TestCase):
             with self.subTest(url=url):
                 response = self.auth_follower.get(url)
                 self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_auth_user_comment_urls(self):
+        comment_url = f'/posts/{self.post.pk}/comment'
+        form_data = {
+            'text': 'Тестовый коментарий'
+        }
+        response = self.auth_user.get(
+            comment_url,
+            data=form_data, follow=True)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
