@@ -89,10 +89,10 @@ class PostURLTests(TestCase):
         follow_url_1 = '/follow/'
         response = self.auth_follower.get(follow_url_1)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        follow_urls = {
+        follow_urls = (
             f'/profile/{self.user.username}/follow',
             f'/profile/{self.user.username}/unfollow',
-        }
+        )
         for url in follow_urls:
             with self.subTest(url=url):
                 response = self.auth_follower.get(url)
