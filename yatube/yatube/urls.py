@@ -32,6 +32,8 @@ handler404 = 'core.views.page_not_found'
 handler500 = 'core.views.server_error'
 
 if settings.DEBUG:
-    urlpatterns += static(
+    import debug_toolbar
+    urlpatterns.extend(static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
+    ),)
+    urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)),)
