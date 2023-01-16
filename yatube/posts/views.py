@@ -12,6 +12,7 @@ from posts.forms import PostForm, CommentForm
 def index(request):
     template = 'posts/index.html'
     title = 'Последние обновления на сайте'
+    description = 'Добро пожаловать на главную страницу YaTube'
     posts_lists = Post.objects.all()
     paginator = Paginator(posts_lists, s.NUMBER_SHOW)
     page_number = request.GET.get('page')
@@ -19,6 +20,7 @@ def index(request):
     context = {
         'page_obj': page_obj,
         'title': title,
+        'description': description
     }
     return render(request, template, context)
 
@@ -140,11 +142,15 @@ def add_comment(request, post_id):
 @login_required
 def follow_index(request):
     template = 'posts/follow.html'
+    title = 'Избранные авторы'
+    description = 'На странице отображаются авторы на которых вы подписаны'
     posts = Post.objects.filter(author__following__user=request.user).all()
     paginator = Paginator(posts, s.NUMBER_SHOW)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
+        'title': title,
+        'description': description,
         'page_obj': page_obj
     }
     return render(request, template, context)
