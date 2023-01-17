@@ -26,6 +26,8 @@ SECRET_KEY = 'lj-xm&at0wfp)m)vnkcj9yu+!tql==14ep7p+qkp0y35)&s@9m'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'www.yatubebeta.pythonanywhere.com',
+    'yatubebeta.pythonanywhere.com',
     'localhost',
     '127.0.0.1',
     '[::1]',
