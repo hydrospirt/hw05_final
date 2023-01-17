@@ -12,7 +12,7 @@ from posts.forms import PostForm, CommentForm
 def index(request):
     template = 'posts/index.html'
     title = 'Последние обновления на сайте'
-    description = 'Добро пожаловать на главную страницу YaTube'
+    description = 'Добро пожаловать на главную страницу Yatube'
     posts_lists = Post.objects.all()
     paginator = Paginator(posts_lists, s.NUMBER_SHOW)
     page_number = request.GET.get('page')
