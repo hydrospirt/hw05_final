@@ -2,51 +2,37 @@
 {% load static %}
 {% block title %}Об авторе проекта{% endblock title %}
 {% block content %}
-<div class="container py-1">
-  <div class="container" >
-    <div class="row">
-  <div class="container col-xxl-8 px-4 py-1">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-      <div class="col-10 col-sm-8 col-lg-6">
-        <img src="{% static 'img/coffee.jpg' %}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-      </div>
-      <div class="col-lg-6">
-        <h1 class="display-5 fw-bold lh-1 mb-3">Об авторе проекта</h1>
-        <p class="lead">
-          Мне всегда нравилось, создавать, тестировать, настраивать, разрабатывать. Путь к программированию занял много времени.
-          <br>В детстве у меня была книга по С++, которую я открывал и забрасывал около 13 раз в разные моменты времени.
-          Тогда хотелось лишь одного - создавать программы, которые работают, а не печатать на компьютере.
-        </p>
-        <p class="lead">
-            Шло время, появлялись новые информационные технологии.<br> Первую конструкцию if-else изучил,
-            когда пробовал создавать мини-игры в RPG maker. На примере простого квеста, я понял, как это работает,
-            а главное для чего это нужно. Потратив на игру-редактор-движок около 100 часов и сделав 2 минуты игры с заставкой.
-            Пришлось столкнуться с различными проблемами движка и его ограничениями, а так же со своим недостатком знаний.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="px-500 py-1 my-1 text-left">
-    <h1 class="display-4 fw-bold">Ещё немного об авторе...</h1>
-    <div class="col-lg-6 mx-auto">
-      <p class="lead mb-5">
-        Позднее начал изучать С#. Для меня C# всегда останется, одим из лучших языков программирования.
-        Этот язык и Visiual Studio показали, что можно создавать, практически, что захочешь. Благодаря С# я познакомился с движоком Unity.
-        Создавая простые тривиальные программы и игры по урокам. Пришло понимание, для того чтобы создать
-        сложный и интересный проект - нужна целая команда. Однажды даже нашёл художника, который бы рисовал арты для проекта.
-        Но слишком быстро потерял мотивацию и на долгое время забросил всё, что связано с IT и разработкой.
-      </p>
-      <p class="lead mb-5">
-        События 2022 года и случайно найденный курс в интернете,
-        навели меня на мысль о том, что пора - сменить сферу дейтельности.
-        Октябрь 2022 года был новым началом изучения обьективно-ориентированного языка програмирования Python.
-        Благодаря этому языку и его Фреймворку Django, я создал свой первый проект.
-        Действительно, я испытал удивление от того, как можно создавать сайты с базой данных.
-        А это мой первый проект на Django. Спасибо за прочтение.
-    </p>
-    </div>
-  </div>
-  <div class="row justify-content-md-center">
+<div class="container col-xxl-8 px-4 py-1">
+  <h1 align="center">Эдуард Гумен</h1>
+  <p align="center"><strong>Python Back-end Engineer</strong></p>
+  <p align="center"><img src="https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png" alt="my photo" width="150px"></p>
+</div>
+<div class="container col-xxl-8 px-4 py-1">
+  <h2>Краткое описание</h2>
+    <p>Ориентированный на дедлайн серверный инженер Python с большим опытом работы.
+      Солидный опыт проектирования, превосходящий ожидания клиентов.
+      Обладаю смешенным складом ума способным к креативному мышлению,
+      что позволяет выполнять любые задачи и способностью быстро адаптироваться к новым технологиям.</p>
+</div>
+<div class="container col-xxl-8 px-4 py-1">
+  <h2>Умения</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>Tech</th>
+            <td>Python</td>
+            <td>Django</td>
+            <td>SQL</td>
+        </tr>
+        <tr>
+            <th>Soft Skills</th>
+            <td>Problem Solving</td>
+            <td colspan="3">Team Work</td>
+        </tr>
+    </table>
+</div>
+<div class="container col-xxl-8 px-4 py-1">
+  <h2>Контакты</h2>
+  <div class="row">
     <div class="col-md-8">
         <table class="table table-bordered">
           <tread class="thead-dark">
@@ -55,13 +41,7 @@
               <th scope="col">Ссылка</th>
             </tr>
           </tread>
-          <tbody>
-            <tr>
-              <td>Мое резюме</td>
-              <td>
-                <a href="https://hh.ru/">hh.ru</a>
-              </td>
-            </tr>
+          <tbody style width="100%">
             <tr>
               <td>GitHub</td>
               <td>
@@ -71,7 +51,7 @@
             <tr>
               <td>Email</td>
                <td>
-                <a href="mailto: hydrospirt@yandex.ru">hydrospirt@yandex.ru</a>
+                <a href="mailto: hydrospirt@yandex.ru">Написать</a>
                </td>
             </tr>
             <tr>
